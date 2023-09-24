@@ -1,0 +1,68 @@
+
+rm(list=ls())
+library(TMB)
+library(tidyverse)
+
+dat <- read_csv("data/sbrm_lw.csv")
+
+# # Simulation data
+# N_obs <- 1000
+# length_min <- 50  # mm
+# length_max <- 550 # mm
+# obs_sd <- 50
+
+
+# Input
+a_strt = 0.00001 # parameter
+b_strt = 3       # parameter
+logSigma = 0
+
+len_obs = dat$fork_length_mm
+wgt_obs = dat$weight_g
+
+len_obs_min = min(len_obs)
+len_obs_max = max(len_obs)
+
+plot(len_obs, wgt_obs , xlab = "Length", ylab = "Weight")
+
+
+#sim_length <- runif(N_obs, length_min, length_max)
+#plot(sim_length)
+#sim_weight <- rnorm(N_obs, a * (sim_length ^ b), obs_sd)
+
+#compile("tmb/length_weight.cpp")
+dyn.load(dynlib("tmb/length_weight"))
+
+
+# Run the model
+obj = MakeADFun(
+  data = list(wgt = wgt_obs, len = len_obs),
+  parameters = list(a = a_strt, b = b_strt, logSigma = logSigma),
+  DLL = "length_weight"
+)
+
+
+opt = nlminb(obj$par, obj$fn, obj$gr)
+
+summ = summary(sdreport(obj))
+
+curve(summ[1,1] * x ^ summ[2,1],
+      from = len_obs_min,
+      to = len_obs_max,
+      col = 2,
+      add = TRUE,
+      xlab = 'Length',
+      ylab = 'Weight')
+
+
+
+
+
+
+
+fit_lw(len_obs = dat$fork_length_mm,
+       wgt_obs = dat$weight_g,
+       a_strt = 0.000001,
+       b = 3)
+
+
