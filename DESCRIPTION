@@ -9,4 +9,6 @@ License: Open source
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-usethis::use_package("TMB", min_version = "1.9.4")
+usethis: :use_package("TMB", min_version = "1.9.4")
+Depends: 
+    R (>= 2.10)
