@@ -36,7 +36,6 @@ fit_lw <- function (len_obs, wgt_obs, a_strt, b_strt, logSigma = 0){
 
   # Summary of estimated parameters
   summ = summary(sdreport(obj))
-  return(summ)
 
   # Plot the predictions
   curve(summ[1,1] * x ^ summ[2,1],
@@ -46,4 +45,7 @@ fit_lw <- function (len_obs, wgt_obs, a_strt, b_strt, logSigma = 0){
         add = TRUE,
         xlab = 'Length',
         ylab = 'Weight')
+
+  return(summ)
+
 }

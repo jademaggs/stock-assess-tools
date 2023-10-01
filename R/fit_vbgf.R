@@ -45,7 +45,7 @@ fit_vbgf <- function (len_obs, age_obs, linf_strt, k_strt, t0_start, logsigma = 
 
   # Summary of estimated parameters
   summ = summary(sdreport(obj))
-  return(summ)
+
 
   # Plot the fit
   curve(summ[1,1] * (1 - exp(-summ[2,1] * (x - summ[3,1]))),
@@ -53,5 +53,7 @@ fit_vbgf <- function (len_obs, age_obs, linf_strt, k_strt, t0_start, logsigma = 
         to = age_obs_max,
         col = 2,
         add = T)
+
+  return(summ)
 
 }

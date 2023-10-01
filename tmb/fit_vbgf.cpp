@@ -7,9 +7,9 @@ Type objective_function<Type>::operator() ()
   {
 
   // data:
-  DATA_VECTOR(age_obs);
-  DATA_VECTOR(len_obs);
-  int n = age_obs.size(); // get number of data points to loop over
+  DATA_VECTOR(age);
+  DATA_VECTOR(len);
+  int n = age.size(); // get number of data points to loop over
 
 
   // parameters:
@@ -36,12 +36,12 @@ Type objective_function<Type>::operator() ()
   // Fit the model
   for(int i = 0; i < n; i++){ // C++ starts loops at 0!
   // get negative log-likelihood (last argument is log = TRUE)
-  len_pred(i) = linf * (1.0-exp(-k*(age_obs(i) - t0))) ;
+  len_pred(i) = linf * (1.0-exp(-k*(age(i) - t0))) ;
   }
 
 
   // Calculate the negative log-likelihood
-  nll = -sum(dnorm(len_obs, len_pred, sigma, true));
+  nll = -sum(dnorm(len, len_pred, sigma, true));
   // NOTE: the negative log-likelihood can also be included in the for loop using the subtraction assignment '-=' where:
   // nll -= dnorm(Length, LengthPred, sigma, true)
   // This will subtract each log-likelihood from the initial 0 value
